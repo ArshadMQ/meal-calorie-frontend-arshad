@@ -28,8 +28,8 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000",
-                   "https://calories.arshadmq.com",
-                   "http://calories.arshadmq.com"],
+                   "https://mealory.arshadmq.com",
+                   "http://mealory.arshadmq.com"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
