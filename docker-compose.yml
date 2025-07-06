@@ -1,0 +1,25 @@
+
+services:
+  calories-be:
+    build:
+      context: ./calories-be
+    container_name: fastapi-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./calories-be:/app
+    env_file:
+      - ./calories-be/.env
+    depends_on:
+      - calories-fe
+
+  calories-fe:
+    build:
+      context: ./calories-fe
+    container_name: nextjs-frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./calories-fe:/app
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000

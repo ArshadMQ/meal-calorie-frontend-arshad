@@ -1,0 +1,14 @@
+fastapi==0.115.14
+uvicorn==0.35.0
+sqlalchemy==2.0.41
+python-dotenv==1.1.1
+passlib[bcrypt]
+python-jose
+httpx==0.28.1
+passlib==1.7.4
+pydantic
+python-dotenv
+pydantic[email]
+pyjwt
+pytz==2025.2
+psycopg2-binary==2.9.10
