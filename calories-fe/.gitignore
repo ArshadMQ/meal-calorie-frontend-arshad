@@ -9,14 +9,11 @@
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
-<<<<<<< HEAD
 
-=======
 node_modules
 .next
 .env
 *.log
->>>>>>> 81f30e93aa55c0c603e83f968eab34f3b8ad08e9
 # testing
 /coverage
 

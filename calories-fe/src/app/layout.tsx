@@ -30,7 +30,6 @@ export default async function RootLayout({
 }>) {
   const user = await getUserFromServer();
   const cookieStore = cookies();
-  console.log("User data in RootLayout:", user);
 
   const token = (await cookieStore).get("token");
   const pathname = (await headers()).get("x-invoke-path") || "";
@@ -40,8 +39,15 @@ export default async function RootLayout({
   }
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+      >
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem
+          disableTransitionOnChange
+        >
           <ClientSessionSync user={user} />
           {children}
         </ThemeProvider>
