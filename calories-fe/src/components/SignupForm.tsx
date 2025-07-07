@@ -11,7 +11,10 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { set } from "zod";
 
-export function SignupForm({ className, ...props }: React.ComponentProps<"form">) {
+export function SignupForm({
+  className,
+  ...props
+}: React.ComponentProps<"form">) {
   const [showPassword, setShowPassword] = useState(false);
   const [isPending, setIsPending] = useState(false);
   const router = useRouter();
@@ -35,7 +38,7 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"form">
     try {
       setIsPending(true);
       const res = await api.post(`/auth/register`, data);
-      if (res.status === 200) {
+      if (res.status === 201) {
         toast.success("Account created successfully!", {
           description: "You can now log in with your new account.",
         });
@@ -44,39 +47,81 @@ export function SignupForm({ className, ...props }: React.ComponentProps<"form">
       setIsPending(false);
     } catch (err: any) {
       setIsPending(false);
+      console.log("Catch error:", err.response);
+
       toast.error("Something went wrong!", {
-        description: err.response?.data?.detail || "Please try again after some time.",
+        description:
+          err?.response?.data?.errors?.msg ||
+          "Please try again after some time.",
       });
-      console.error("Signup error:", err.response?.data || err.message);
+      console.error("Signup error:", err?.errors?.msg || err);
     }
   };
 
   return (
-    <form onSubmit={handleSignup} autoComplete="off" className={cn("flex flex-col gap-6", className)} {...props}>
+    <form
+      onSubmit={handleSignup}
+      autoComplete="off"
+      className={cn("flex flex-col gap-6", className)}
+      {...props}
+    >
       <div className="flex flex-col items-center gap-2 text-center">
         <h1 className="text-2xl font-bold">Create new account</h1>
-        <p className="text-muted-foreground text-sm text-balance">Enter your details to create a new account</p>
+        <p className="text-muted-foreground text-sm text-balance">
+          Enter your details to create a new account
+        </p>
       </div>
       <div className="grid gap-4">
         <div className="flex w-full gap-2 justify-between">
           <div className="flex gap-2 flex-col w-full">
             <Label htmlFor="firstName">First Name</Label>
-            <Input id="firstName" name="firstName" type="text" placeholder="Uncle" required />
+            <Input
+              id="firstName"
+              name="firstName"
+              type="text"
+              placeholder="Uncle"
+              required
+            />
           </div>
           <div className="flex gap-2 flex-col w-full">
             <Label htmlFor="lastName">Last Name</Label>
-            <Input id="lastName" name="lastName" type="text" placeholder="Bob" required />
+            <Input
+              id="lastName"
+              name="lastName"
+              type="text"
+              placeholder="Bob"
+              required
+            />
           </div>
         </div>
         <div className="grid gap-2">
           <Label htmlFor="email">Email</Label>
-          <Input id="email" name="email" type="email" placeholder="unclebob@email.com" required autoComplete="off" autoCorrect="off" />
+          <Input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="unclebob@email.com"
+            required
+            autoComplete="off"
+            autoCorrect="off"
+          />
         </div>
         <div className="grid gap-2">
           <Label htmlFor="password">Password</Label>
           <div className="relative">
-            <Input id="password" name="password" type={showPassword ? "text" : "password"} placeholder="Password" required className="pr-10" />
-            <Button variant={"link"} onClick={togglePasswordVisibility} className="absolute right-0 top-1/2 -translate-y-1/2 text-muted-foreground">
+            <Input
+              id="password"
+              name="password"
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              required
+              className="pr-10"
+            />
+            <Button
+              variant={"link"}
+              onClick={togglePasswordVisibility}
+              className="absolute right-0 top-1/2 -translate-y-1/2 text-muted-foreground"
+            >
               {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
             </Button>
           </div>

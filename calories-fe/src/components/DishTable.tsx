@@ -3,14 +3,40 @@
 import * as React from "react";
 import { toast } from "sonner";
 import axios from "axios";
-import { ColumnDef, ColumnFiltersState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, SortingState, useReactTable, VisibilityState } from "@tanstack/react-table";
+import {
+  ColumnDef,
+  ColumnFiltersState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  SortingState,
+  useReactTable,
+  VisibilityState,
+} from "@tanstack/react-table";
 import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import api from "@/lib/axios";
 import { getUserFromServer } from "@/lib/auth";
 
@@ -28,7 +54,9 @@ export const columns: ColumnDef<Dish>[] = [
   {
     accessorKey: "dish_name",
     header: "Dish Name",
-    cell: ({ row }) => <div className="capitalize w-80">{row.getValue("dish_name")}</div>,
+    cell: ({ row }) => (
+      <div className="capitalize w-80">{row.getValue("dish_name")}</div>
+    ),
   },
   {
     accessorKey: "servings",
@@ -38,7 +66,9 @@ export const columns: ColumnDef<Dish>[] = [
   {
     accessorKey: "total_calories",
     header: "Total Calories",
-    cell: ({ row }) => <div className="font-medium">{row.getValue("total_calories")}</div>,
+    cell: ({ row }) => (
+      <div className="font-medium">{row.getValue("total_calories")}</div>
+    ),
   },
   //   {
   //     accessorKey: "source",
@@ -50,17 +80,30 @@ export const columns: ColumnDef<Dish>[] = [
     header: "Date",
     cell: ({ row }) => {
       const date = new Date(row.getValue("created_at"));
-      const formatted = `${date.getDate().toString().padStart(2, "0")}-${(date.getMonth() + 1).toString().padStart(2, "0")}-${date.getFullYear()}`;
+      const formatted = `${date.getDate().toString().padStart(2, "0")}-${(
+        date.getMonth() + 1
+      )
+        .toString()
+        .padStart(2, "0")}-${date.getFullYear()}`;
       return <div>{formatted}</div>;
     },
   },
 ];
 
-export function DishTable({ user, nutritionData }: { user: any; nutritionData: any }) {
+export function DishTable({
+  user,
+  nutritionData,
+}: {
+  user: any;
+  nutritionData: any;
+}) {
   const [data, setData] = React.useState<Dish[]>([]);
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    []
+  );
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
 
   React.useEffect(() => {
@@ -107,7 +150,16 @@ export function DishTable({ user, nutritionData }: { user: any; nutritionData: a
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
-                return <TableHead key={header.id}>{header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}</TableHead>;
+                return (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </TableHead>
+                );
               })}
             </TableRow>
           ))}
@@ -115,9 +167,14 @@ export function DishTable({ user, nutritionData }: { user: any; nutritionData: a
         <TableBody className="overflow-y-auto max-h-[500px]">
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
-              <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+              <TableRow
+                key={row.id}
+                data-state={row.getIsSelected() && "selected"}
+              >
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+                  <TableCell key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
                 ))}
               </TableRow>
             ))
